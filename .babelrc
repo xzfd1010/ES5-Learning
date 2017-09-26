@@ -1,0 +1,10 @@
+{
+  "presets": [
+    "es2015",
+    "stage-0"
+  ],
+  "plugins": [
+    // 清除strict模式
+    "transform-remove-strict-mode"
+  ]
+}
