@@ -80,86 +80,87 @@ __webpack_require__(2);
 /* 2 */
 /***/ (function(module, exports) {
 
+//create object
 /* eslint-disable no-redeclare, no-console ,no-unused-vars*/
-// writable
+var log = console.log.bind(console);
+
+// 工厂模式：无法识别对象的类型
 {
-    var person = {};
-    Object.defineProperty(person, "name", {
-        writable: false,
-        value: "Nicholas"
-    });
-
-    console.log(person.name);
-    person.name = "Greg";
-    console.log(person.name);
-}
-
-// configurable
-{
-    var person = {};
-    Object.defineProperty(person, "name", {
-        configurable: false, // 不可配置
-
-        value: "Nicholas"
-    });
-    console.log(person.name);
-    person.name = "aaa";
-    console.log(person.name);
-
-    Object.defineProperty(person, "name", {
-        writable: false
-    });
-}
-
-//Object.getOwnPropertyDescriptor()
-{
-    var person = {};
-    Object.defineProperty(person, "name", {
-        configurable: true,
-        value: "Nicholas"
-    });
-    console.log("person's attributes:");
-    console.log(Object.getOwnPropertyDescriptor(person, "name"));
-
-    Object.defineProperty(person, "name", {
-        value: "nick"
-    });
-    console.log("通过defineProperty修改后的值：" + person.name);
-    person.name = "arron";
-    console.log("直接修改验证writable的有效性：" + (person.name === "arron"));
-
-    var another = { name: "Nick" };
-    console.log("another's attributes:");
-    console.log(Object.getOwnPropertyDescriptor(another, "name"));
-}
-
-// 访问器属性
-{
-    var book = {
-        _year: 2004,
-        edition: 1
+    var createPerson = function createPerson(name, age, job) {
+        var o = new Object();
+        o.name = name;
+        o.age = age;
+        o.job = job;
+        o.sayName = function () {
+            log(this.name);
+        };
+        return o;
     };
 
-    Object.defineProperty(book, "year", {
-        get: function get() {
-            return this._year;
-        },
-        set: function set(newValue) {
-            // 如果newValue < 2004，则不会修改原有的_year的值
-            if (newValue > 2004) {
-                this._year = newValue;
-                this.edition += newValue - 2004;
-            }
-        }
-    });
-    console.log("year before:" + book.year);
-    console.log("edition before:" + book.edition);
-    book.year = 2005;
-    console.log("year after:" + book.year);
-    console.log("edition after:" + book.edition);
+    var person1 = createPerson("Nicholas", 29, "Software Engineer");
+    var person2 = createPerson("Greg", 27, "Doctor");
 
-    console.log("book's attributes:");
-    console.log(Object.getOwnPropertyDescriptor(book, "year"));
+    person1.sayName();
+    person2.sayName();
+
+    log("方法内存是否相同：" + (person1.sayName == person2.sayName));
+}
+
+// 构造函数模式：不同实例上的同名函数是不相等的
+{
+    var Person = function Person(name, age, job) {
+        this.name = name;
+        this.age = age;
+        this.job = job;
+        this.sayName = function () {
+            alert(this.name);
+        };
+    };
+
+    var person1 = new Person("Nicholas", 29, "Software Engineer");
+    var person2 = new Person("Greg", 27, "Doctor");
+
+    log(person1 instanceof Person);
+    log(person2 instanceof Person);
+
+    log("方法内存是否相同：" + (person1.sayName == person2.sayName));
+}
+
+// 原型模式：在prototype上定义所有实例共享的属性和方法
+{
+    var _Person = function _Person(name, age, job) {
+        this.name = name;
+        this.age = age;
+        this.job = job;
+    };
+
+    _Person.prototype.sayName = function () {
+        log(this.name);
+    };
+    _Person.prototype.test = "test";
+    var person1 = new _Person("Nicholas", 29, "Software Engineer");
+    var person2 = new _Person("Greg", 27, "Doctor");
+    person1.sayName();
+    person2.sayName();
+
+    log("构造函数Person === Person.prototype.constructor:" + (_Person === _Person.prototype.constructor));
+    log("person1.__proto__ === Person.prototype:" + (person1.__proto__ === _Person.prototype));
+
+    //isPrototypeOf：判断对象和构造函数之间的关系
+    log("Person.prototype.isPrototypeOf(person1):" + _Person.prototype.isPrototypeOf(person1));
+
+    //getPrototypeOf：获取对象的原型
+    log("person1的prototype:");
+    log(Object.getPrototypeOf(person1));
+
+    //访问constructor
+    log("constructor:");
+    log(person1.constructor);
+
+    //hasOwnProperty
+    console.log("person1.hasOwnProperty(\"name\"):" + person1.hasOwnProperty("name"));
+    console.log("person1.hasOwnProperty(\"test\"):" + person1.hasOwnProperty("test"));
+    console.log("person1的prototype.hasOwnProperty(\"test\"):" + Object.getPrototypeOf(person1).hasOwnProperty("test"));
 }
 
 /***/ })

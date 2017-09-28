@@ -1,4 +1,7 @@
 /* eslint-disable no-redeclare, no-console ,no-unused-vars*/
+
+var log = console.log.bind(console)
+
 // writable
 {
     var person = {}
@@ -80,3 +83,72 @@
     console.log("book's attributes:")
     console.log(Object.getOwnPropertyDescriptor(book, "year"))
 }
+
+{
+    var book = {}
+    Object.defineProperties(book, {
+        // 数据属性
+        _year: {
+            writable: true,
+            value: 2004
+        },
+        edition: {
+            writable: true,
+            value: 1
+        },
+        // 访问器属性
+        year: {
+            get: function () {
+                return this._year
+            },
+            set: function (newValue) {
+                if (newValue > 2004) {
+                    this._year = newValue;
+                    this.edition += newValue - 2004;
+                }
+            }
+        }
+
+    })
+    console.log(book)
+}
+
+{
+    var book = {}
+    Object.defineProperties(book, {
+        // 数据属性
+        _year: {
+            writable: true,
+            value: 2004
+        },
+        edition: {
+            writable: true,
+            value: 1
+        },
+        // 访问器属性
+        year: {
+            get: function () {
+                return this._year
+            },
+            set: function (newValue) {
+                if (newValue > 2004) {
+                    this._year = newValue
+                    this.edition += newValue - 2004
+                }
+            }
+        }
+
+    })
+
+    var descriptor = Object.getOwnPropertyDescriptor(book, "_year")
+    log(`_year.value:${descriptor.value}`)
+    log(`_year.configurable:${descriptor.configurable}`)
+    log(`_year.get:${descriptor.get}`)
+
+    // 没有定义value特性，只定义了存取
+    descriptor = Object.getOwnPropertyDescriptor(book,"year")
+    log(`year.value:${descriptor.value}`)
+    log(`year.configurable:${descriptor.enumerable}`)
+    log(`year.get:${descriptor.get}`)
+}
+
