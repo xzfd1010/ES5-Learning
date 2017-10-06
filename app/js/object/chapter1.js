@@ -17,15 +17,25 @@ var log = console.log.bind(console)
 
 // configurable
 {
+
+    log("configurable")
     var person = {}
     Object.defineProperty(person, "name", {
         configurable: false,// 不可配置
-
         value: "Nicholas"
     })
     console.log(person.name)
     person.name = "aaa"
     console.log(person.name)
+
+    function test(){
+        // "use strict"
+        delete person.name
+    }
+
+    test()
+
+    log("删除属性:", person.name)
 
     Object.defineProperty(person, "name", {
         writable: false
@@ -146,7 +156,7 @@ var log = console.log.bind(console)
     log(`_year.get:${descriptor.get}`)
 
     // 没有定义value特性，只定义了存取
-    descriptor = Object.getOwnPropertyDescriptor(book,"year")
+    descriptor = Object.getOwnPropertyDescriptor(book, "year")
     log(`year.value:${descriptor.value}`)
     log(`year.configurable:${descriptor.enumerable}`)
     log(`year.get:${descriptor.get}`)

@@ -1,2 +1,5 @@
 // import "./object/chapter1"
-import "./object/chapter2"
+// import "./object/chapter2"
+// import "./object/chapter3"
+// import "./function/chapter0"
+import "./function/chapter1"
