@@ -80,63 +80,29 @@ __webpack_require__(2);
 /* 2 */
 /***/ (function(module, exports) {
 
+// 模仿块级作用域
 var log = console.log.bind(console);
 
-// 递归
-
-// 阶乘
 {
-    var _factorial2 = function _factorial(num) {
-        if (num > 1) {
-            return _factorial2(num - 1) * num;
-        } else {
-            return 1;
+    var outputNumbers = function outputNumbers(count) {
+        for (var i = 0; i < count; i++) {
+            log(i);
         }
+        var i;
+
+        log(i); // 仍然是10
     };
 
-    log("函数声明");
-
-
-    log(_factorial2(3));
-
-    // 但不能兼容以下写法
-
-    var anotherFactorial = _factorial2;
-    _factorial2 = null;
-    // log(anotherFactorial(4)) // 报错，因为阶乘的过程中引用了factorial，而此时已被赋值为null
+    outputNumbers(10);
 }
-// 使用arguments.callee解决
-{
-    var _factorial3 = function _factorial3(num) {
-        if (num <= 1) {
-            return 1;
-        } else {
-            return num * arguments.callee(num - 1);
-        }
-    };
 
-    log("arguments.callee");
-
-
-    var anotherFactorial = _factorial3;
-    _factorial3 = null;
-    log(anotherFactorial(4));
-}
-// callee严格模式不可用，使用函数表达式
-{
-    log("函数表达式");
-    var factorial = function f(num) {
-        if (num <= 1) {
-            return 1;
-        } else {
-            return num * f(num - 1);
-        }
-    };
-
-    var anotherFactorial = factorial;
-    factorial = null;
-    log(anotherFactorial(4));
-}
+// 创建私有作用域示例
+(function () {
+    var now = new Date(); // 匿名函数中的局部变量，无须担心污染全局
+    if (now.getMonth() === 9 && now.getDate() === 7) {
+        log("Happy National Day!");
+    }
+})();
 
 /***/ })
 /******/ ]);

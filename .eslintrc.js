@@ -38,6 +38,12 @@ module.exports = {
         ],
         "no-func-assign":[
             "off"
+        ],
+        "no-delete-var":[
+            "off"
+        ],
+        "no-undef":[
+            "off"
         ]
     }
 };

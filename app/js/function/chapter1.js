@@ -51,7 +51,4 @@ var log = console.log.bind(console)
     var anotherFactorial = factorial
     factorial = null
     log(anotherFactorial(4))
-
-
-
 }
