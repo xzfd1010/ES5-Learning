@@ -80,179 +80,46 @@ __webpack_require__(2);
 /* 2 */
 /***/ (function(module, exports) {
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-// 私有变量
+// 检测非IE插件
 {
-    // num1、num2、sum都是私有变量
-    var add = function add(num1, num2) {
-        var sum = num1 + num2;
-        return sum;
-    };
-}
-
-// 特权方法
-{
-    var _MyObject = function _MyObject() {
-        // 私有变量和私有函数
-        var privateVariable = 10;
-
-        function privateFunction() {
-            return false;
-        }
-
-        // 特权方法：
-        this.publicMethod = function () {
-            privateVariable++;
-            return privateFunction(); // 这里是执行而非返回函数体
-        };
-    };
-
-    var obj = new _MyObject();
-    console.log(obj.publicMethod);
-}
-
-// 用途1：隐藏方法和数据
-{
-    var _Person = function _Person(name) {
-        this.getName = function () {
-            return name;
-        };
-
-        this.setName = function (value) {
-            name = value;
-        };
-    };
-
-    var person = new _Person("Nick");
-    console.log(person.getName());
-    person.setName("Michael");
-    console.log(person.getName());
-}
-
-// 静态私有变量
-{
-    (function () {
-        // 私有变量和私有函数
-        var privateVariable = 10;
-
-        function privateFunction() {
-            return false;
-        }
-
-        // 构造函数
-        MyObject = function MyObject() {};
-
-        // 共有/特权方法
-        MyObject.prototype.publicMethod = function () {
-            privateVariable++;
-            return privateFunction();
-        };
-    })();
-}
-// 实例
-{
-    (function () {
-        var name = "";
-        Person = function Person(value) {
-            name = value;
-        };
-
-        Person.prototype.getName = function () {
-            return name;
-        };
-
-        Person.prototype.setName = function (value) {
-            name = value;
-        };
-    })();
-
-    var person1 = new Person("Nick");
-    console.log(person1.getName());
-    person1.setName("Greg");
-    console.log(person1.getName());
-
-    var person2 = new Person("Michael");
-    console.log(person1.getName());
-    console.log(person2.getName());
-}
-
-// 单例模式
-{
-    var singleton = {
-        name: "value",
-        method: function method() {
-            // 方法代码
-        }
-    };
-}
-// 模块模式
-{
-    var singleton = function () {
-        var privateVariable = 10;
-
-        function privateFunction() {
-            return false;
-        }
-
-        return {
-            publicProperty: true,
-            publicMethod: function publicMethod() {
-                privateVariable++;
-                return privateFunction();
+    var hasPlugin = function hasPlugin(name) {
+        name = name.toLowerCase();
+        for (var i = 0; i < navigator.plugins.length; i++) {
+            if (navigator.plugins[i].name.toLowerCase().indexOf(name) > -1) {
+                return true;
             }
-        };
-    }();
-
-    console.log(singleton);
-}
-// 实例
-{
-    var application = function () {
-        // 私有变量和函数
-        var components = new Array();
-
-        // 初始化
-        components.push(new Object());
-
-        return {
-            getComponentCount: function getComponentCount() {
-                return components.length;
-            },
-            registerComponent: function registerComponent(component) {
-                if ((typeof component === "undefined" ? "undefined" : _typeof(component)) === "object") {
-                    components.push(component);
-                }
-            }
-        };
-    }();
-}
-
-// 增强模块模式
-{
-    var CustomType = function CustomType() {};
-
-    var singleton = function () {
-        // 私有变量和私有函数
-        var privateVariable = 10;
-        function privateFunction() {
-            return false;
         }
 
-        // 创建对象
-        var object = new CustomType();
+        return false;
+    };
 
-        // 添加特权/公有属性和方法
-        object.publicMethod = function () {
-            privateVariable++;
-            return privateFunction();
-        };
+    console.log(hasPlugin("Native Client"));
+    console.log(hasPlugin("Flash"));
+    console.log(navigator.plugins);
+}
 
-        // 返回对象
-        return object;
-    }();
+// 检测IE插件
+{
+    var hasIEPlugin = function hasIEPlugin(name) {
+        try {
+            new ActiveXobject(name);
+            return true;
+        } catch (ex) {
+            return false;
+        }
+    };
 
-    console.log(singleton);
+    console.log(hasIEPlugin("ShockwaveFlash.ShockwaveFlash"));
+}
+
+// registerContentHandler
+{}
+// navigator.registerContentHandler("application/rss+xml","http://www.somereader.com?feed=%s","Some Reader")
+
+
+// registerProtocolHandler
+{
+    navigator.registerProtocolHandler("mailto", "http://wwww.somemailclient.com?cmd=%s", "Some Mail Client");
 }
 
 /***/ })
