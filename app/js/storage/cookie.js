@@ -47,21 +47,14 @@ var CookieUtil = {
     }
 }
 
-var value = CookieUtil.get('token');
-// if(value){
-//     setE+3
-// // if(CookieUtil.set('token',value,Expires+3));
-// }else{
-//     location.href=
-// }
 
 // 模拟调用
-var token = "abc"
-var expires = 5*1000
-CookieUtil.set("token",token,expires)
-
-console.log(CookieUtil.get("token"))
-
-setTimeout(function(){
-    console.log(CookieUtil.get("token"))
-},5000)
+// var token = "abc"
+// var expires = 5*1000
+// CookieUtil.set("token",token,expires)
+//
+// console.log(CookieUtil.get("token"))
+//
+// setTimeout(function(){
+//     console.log(CookieUtil.get("token"))
+// },5000)

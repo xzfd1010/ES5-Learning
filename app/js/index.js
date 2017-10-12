@@ -8,5 +8,7 @@
 // import "./function/chapter4"
 // import "./bom/chapter1"
 // import "./bom/chapter2-location"
-import "./bom/chapter3-navigator"
+// import "./bom/chapter3-navigator"
 // import "./storage/cookie"
+// import "./clientTest/chapter1-ablitity"
+import "./clientTest/chapter2-quirks"

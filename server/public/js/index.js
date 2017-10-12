@@ -80,46 +80,42 @@ __webpack_require__(2);
 /* 2 */
 /***/ (function(module, exports) {
 
-// 检测非IE插件
+// toString是prototype上的方法，
 {
-    var hasPlugin = function hasPlugin(name) {
-        name = name.toLowerCase();
-        for (var i = 0; i < navigator.plugins.length; i++) {
-            if (navigator.plugins[i].name.toLowerCase().indexOf(name) > -1) {
-                return true;
+    var hasDontEnumQuirk = function hasDontEnumQuirk() {
+        var o = {
+            toString: function toString() {}
+        };
+
+        for (var prop in o) {
+            if (prop == "toString") {
+                return false;
             }
         }
 
-        return false;
+        return true;
     };
 
-    console.log(hasPlugin("Native Client"));
-    console.log(hasPlugin("Flash"));
-    console.log(navigator.plugins);
+    console.log(hasDontEnumQuirk());
 }
 
-// 检测IE插件
 {
-    var hasIEPlugin = function hasIEPlugin(name) {
-        try {
-            new ActiveXobject(name);
-            return true;
-        } catch (ex) {
-            return false;
+    var hasEnumShadowsQuirk = function hasEnumShadowsQuirk() {
+        var o = {
+            toString: function toString() {}
+        };
+
+        var count = 0;
+
+        for (var prop in o) {
+            if (prop == "toString") {
+                count++;
+            }
         }
+
+        return count > 1;
     };
-
-    console.log(hasIEPlugin("ShockwaveFlash.ShockwaveFlash"));
-}
-
-// registerContentHandler
-{}
-// navigator.registerContentHandler("application/rss+xml","http://www.somereader.com?feed=%s","Some Reader")
-
-
-// registerProtocolHandler
-{
-    navigator.registerProtocolHandler("mailto", "http://wwww.somemailclient.com?cmd=%s", "Some Mail Client");
+    console.log(hasEnumShadowsQuirk());
 }
 
 /***/ })
