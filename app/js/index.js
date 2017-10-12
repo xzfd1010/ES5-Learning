@@ -11,4 +11,5 @@
 // import "./bom/chapter3-navigator"
 // import "./storage/cookie"
 // import "./clientTest/chapter1-ablitity"
-import "./clientTest/chapter2-quirks"
+// import "./clientTest/chapter2-quirks"
+import "./clientTest/chapter3-browser"

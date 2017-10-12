@@ -80,43 +80,7 @@ __webpack_require__(2);
 /* 2 */
 /***/ (function(module, exports) {
 
-// toString是prototype上的方法，
-{
-    var hasDontEnumQuirk = function hasDontEnumQuirk() {
-        var o = {
-            toString: function toString() {}
-        };
 
-        for (var prop in o) {
-            if (prop == "toString") {
-                return false;
-            }
-        }
-
-        return true;
-    };
-
-    console.log(hasDontEnumQuirk());
-}
-
-{
-    var hasEnumShadowsQuirk = function hasEnumShadowsQuirk() {
-        var o = {
-            toString: function toString() {}
-        };
-
-        var count = 0;
-
-        for (var prop in o) {
-            if (prop == "toString") {
-                count++;
-            }
-        }
-
-        return count > 1;
-    };
-    console.log(hasEnumShadowsQuirk());
-}
 
 /***/ })
 /******/ ]);
