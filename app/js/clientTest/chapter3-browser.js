@@ -674,6 +674,7 @@
         var browser = {
             // 浏览器
             ie: 0,
+            edge:0,
             firefox: 0,
             safari: 0,
             konq: 0,
@@ -706,8 +707,18 @@
         // 在此检测呈现引擎、平台和设备
         var ua = navigator.userAgent
 
+        // 先检测Edge
+        if(/Edge\/(\S+)/.test(ua)){
+            browser.ver =RegExp["$1"]
+            browser.edge= parseInt(browser.ver)
+            if(/AppleWebKit\/(\S+)/.test(ua)){
+                engine.ver = RegExp["$1"]
+                engine.webkit = parseFloat(engine.ver)
+            }
+        }
+
         // 先检测opera，Opera7.6及以上，有window.opera对象，并且opera.version()返回版本字符串
-        if (window.opera) {
+        else if (window.opera) {
             engine.ver = browser.ver = window.opera.version()
             engin.opera = browser.opera = parseFloat(engine.ver)
         }
@@ -761,7 +772,13 @@
         // 检查IE，IE11中连MSIE都没了。。。
         else if (/MSIE ([^;]+)/.test(ua)) {
             engine.ver = browser.ver = RegExp["$1"]
-            engine.ie = browser.i = parseFloat(engine.ver)
+            engine.ie = browser.ie = parseFloat(engine.ver)
+        }
+
+        // 检查IE11及Edge
+        else if(/Trident\/7.0.+rv:([^)]+)/.test(ua)){
+            engine.ver = browser.ver = "7.0"
+            engine.ie = browser.ie = RegExp["$1"]
         }
 
         // 检测平台
@@ -855,5 +872,5 @@
         }
     }
 
-    // console.log(client)
+    console.log(client.browser)
 }

@@ -750,6 +750,7 @@ __webpack_require__(2);
         var browser = {
             // 浏览器
             ie: 0,
+            edge: 0,
             firefox: 0,
             safari: 0,
             konq: 0,
@@ -781,63 +782,79 @@ __webpack_require__(2);
             // 在此检测呈现引擎、平台和设备
         };var ua = navigator.userAgent;
 
-        // 先检测opera，Opera7.6及以上，有window.opera对象，并且opera.version()返回版本字符串
-        if (window.opera) {
-            engine.ver = browser.ver = window.opera.version();
-            engin.opera = browser.opera = parseFloat(engine.ver);
-        }
-        // 检测Webkit，其中的AppleWebkit这个独一无二的字符串
-        else if (/AppleWebKit\/(\S+)/.test(ua)) {
+        // 先检测Edge
+        if (/Edge\/(\S+)/.test(ua)) {
+            browser.ver = RegExp["$1"];
+            browser.edge = parseInt(browser.ver);
+            if (/AppleWebKit\/(\S+)/.test(ua)) {
                 engine.ver = RegExp["$1"];
                 engine.webkit = parseFloat(engine.ver);
-
-                // 确定是Chrome还是Safari
-                if (/Chrome\/(\S+)/.test(ua)) {
-                    browser.ver = RegExp["$1"];
-                    browser.chrome = parseFloat(browser.ver);
-                } else if (/Version\/(\S+)/.test(ua)) {
-                    browser.ver = RegExp["$1"];
-                    browser.safari = parseFloat(browser.ver);
-                } else {
-                    //近似地确定版本号，Safari3之前的版本映射
-                    var safariVersion = 1;
-                    if (engine.webkit < 100) {
-                        safariVersion = 1;
-                    } else if (engine.webkit < 312) {
-                        safariVersion = 1.2;
-                    } else if (engin.webkit < 412) {
-                        safariVersion = 1.3;
-                    } else {
-                        safariVersion = 2;
-                    }
-
-                    browser.safari = browser.ver = safariVersion;
-                }
             }
+        }
 
-            // KHTML
-            else if (/KHTML\/(\S+)/.test(ua) || /Konqueror\/([^;]+)/.test(ua)) {
-                    engine.ver = browser.ver = RegExp["$1"];
-                    engine.khtml = browser.konq = parseFloat(engine.ver);
+        // 先检测opera，Opera7.6及以上，有window.opera对象，并且opera.version()返回版本字符串
+        else if (window.opera) {
+                engine.ver = browser.ver = window.opera.version();
+                engin.opera = browser.opera = parseFloat(engine.ver);
+            }
+            // 检测Webkit，其中的AppleWebkit这个独一无二的字符串
+            else if (/AppleWebKit\/(\S+)/.test(ua)) {
+                    engine.ver = RegExp["$1"];
+                    engine.webkit = parseFloat(engine.ver);
+
+                    // 确定是Chrome还是Safari
+                    if (/Chrome\/(\S+)/.test(ua)) {
+                        browser.ver = RegExp["$1"];
+                        browser.chrome = parseFloat(browser.ver);
+                    } else if (/Version\/(\S+)/.test(ua)) {
+                        browser.ver = RegExp["$1"];
+                        browser.safari = parseFloat(browser.ver);
+                    } else {
+                        //近似地确定版本号，Safari3之前的版本映射
+                        var safariVersion = 1;
+                        if (engine.webkit < 100) {
+                            safariVersion = 1;
+                        } else if (engine.webkit < 312) {
+                            safariVersion = 1.2;
+                        } else if (engin.webkit < 412) {
+                            safariVersion = 1.3;
+                        } else {
+                            safariVersion = 2;
+                        }
+
+                        browser.safari = browser.ver = safariVersion;
+                    }
                 }
 
-                // Gecko，分组匹配，获得版本号，Gecko/8个数字是一种标识
-                else if (/rv:([^)]+)\) Gecko\/\d{8}/.test(ua)) {
-                        engine.ver = RegExp["$1"];
-                        engine.gecko = parseFloat(engine.ver);
-
-                        // 确定是不是Firefox
-                        if (/Firefox\/(\S+)/.test(ua)) {
-                            browser.ver = RegExp["$1"];
-                            browser.firefox = parseFloat(browser.ver);
-                        }
+                // KHTML
+                else if (/KHTML\/(\S+)/.test(ua) || /Konqueror\/([^;]+)/.test(ua)) {
+                        engine.ver = browser.ver = RegExp["$1"];
+                        engine.khtml = browser.konq = parseFloat(engine.ver);
                     }
 
-                    // 检查IE，IE11中连MSIE都没了。。。
-                    else if (/MSIE ([^;]+)/.test(ua)) {
-                            engine.ver = browser.ver = RegExp["$1"];
-                            engine.ie = browser.i = parseFloat(engine.ver);
+                    // Gecko，分组匹配，获得版本号，Gecko/8个数字是一种标识
+                    else if (/rv:([^)]+)\) Gecko\/\d{8}/.test(ua)) {
+                            engine.ver = RegExp["$1"];
+                            engine.gecko = parseFloat(engine.ver);
+
+                            // 确定是不是Firefox
+                            if (/Firefox\/(\S+)/.test(ua)) {
+                                browser.ver = RegExp["$1"];
+                                browser.firefox = parseFloat(browser.ver);
+                            }
                         }
+
+                        // 检查IE，IE11中连MSIE都没了。。。
+                        else if (/MSIE ([^;]+)/.test(ua)) {
+                                engine.ver = browser.ver = RegExp["$1"];
+                                engine.ie = browser.ie = parseFloat(engine.ver);
+                            }
+
+                            // 检查IE11及Edge
+                            else if (/Trident\/7.0.+rv:([^)]+)/.test(ua)) {
+                                    engine.ver = browser.ver = "7.0";
+                                    engine.ie = browser.ie = RegExp["$1"];
+                                }
 
         // 检测平台
         var p = navigator.platform;
@@ -928,7 +945,7 @@ __webpack_require__(2);
         }
     }
 
-    // console.log(client)
+    console.log(client.browser);
 }
 
 /***/ })
