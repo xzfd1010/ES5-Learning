@@ -821,6 +821,19 @@
         system.iphone = ua.indexOf("iPhone") > -1
         system.ipod = ua.indexOf("iPod") > -1
         system.ipad = ua.indexOf("iPad") > -1
+        // nokiaN系统
+        system.nokiaN = ua.indexOf("NokiaN") > -1
+
+        // winMobile
+        system.winMobile = (system.win == "CE")
+        if(system.win == "CE"){
+            system.winMobile = system.win
+        }else if(system.win == "Ph"){
+            if(/Window Phone OS (\d+.\d+)/.test(ua)){
+                system.win = "Phone"
+                system.winMobile = parseFloat(RegExp["$1"])
+            }
+        }
 
         // 检测iOS的版本号
         if (system.mac && ua.indexOf("Mobile") > -1) {
@@ -834,20 +847,6 @@
         // 检测Android系统
         if (/Android (\d+\.\d+)/.test(ua)) {
             system.android = parseFloat(RegExp.$1)
-        }
-
-        // nokiaN系统
-        system.nokiaN = ua.indexOf("NokiaN") > -1
-
-        // winMobile
-        system.winMobile = (system.win == "CE")
-        if(system.win == "CE"){
-            system.winMobile = system.win
-        }else if(system.win == "Ph"){
-            if(/Window Phone OS (\d+.\d+)/.test(ua)){
-                system.win = "Phone"
-                system.winMobile = parseFloat(RegExp["$1"])
-            }
         }
 
         // 游戏系统

@@ -12,4 +12,6 @@
 // import "./storage/cookie"
 // import "./clientTest/chapter1-ablitity"
 // import "./clientTest/chapter2-quirks"
-import "./clientTest/chapter3-browser"
+// import "./clientTest/chapter3-browser"
+// import "./dom/chapter1-nodeType"
+import "./dom/chapter2-operate"
