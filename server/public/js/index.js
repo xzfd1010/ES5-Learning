@@ -80,267 +80,45 @@ __webpack_require__(2);
 /* 2 */
 /***/ (function(module, exports) {
 
+// 测试浏览器
 {
-    var ul = document.querySelector(".testView");
-    console.log(ul.childNodes);
-    console.log(ul.children);
+    var supportDOM2CSS = document.implementation.hasFeature("CSS", "2.0");
+    var supportDOM2CSS2 = document.implementation.hasFeature("CSS2", "2.0");
+
+    console.log("supportDOM2CSS", supportDOM2CSS);
+    console.log("supportDOM2CSS2", supportDOM2CSS2);
 }
 
-// contains
+//style
 {
-    console.log(document.documentElement.contains(document.body));
+    var div = document.getElementById("myDiv");
+    div.style.cssText = "width:80px;height:30px;background-color:deepskyblue;border:2px solid #ccc;";
+    console.log(div);
+
+    for (var i = 0, len = div.style.length; i < len; i++) {
+        var prop = div.style[i];
+        var value = div.style.getPropertyValue(prop);
+        console.log(prop + ":" + value);
+    }
+
+    var declaration = div.style;
+    var rule = declaration.parentRule;
+    console.log(declaration.parentRule);
+
+    // for (var i = 0, len = div.style.length; i < len; i++) {
+    //     var prop = div.style[i]
+    //     var value = div.style.getPropertyCSSValue(prop)
+    //     console.log(prop + ":" + value)
+    // }
 }
 
-// compareDocumentPosition
+// getComputedStyle(ele,null/:after)
 {
-    var contains = function contains(refNode, otherNode) {
-        if (typeof refNode.contains == "function" && (!client.engine.webkit || client.engine.webkit >= 522)) {
-            return refNode.contains(otherNode);
-        } else if (typeof refNode.compareDocumentPosition == "function") {
-            return !!(refNode.compareDocumentPosition(otherNode) & 16);
-        } else {
-            var node = otherNode.parentNode; //目标节点的父节点
-            // 层层遍历，确定目标节点的祖先节点中是否和refNode相同
-            do {
-                if (node === refNode) {
-                    return true;
-                } else {
-                    node = node.parentNode;
-                }
-            } while (node !== null);
+    var div = document.getElementById("myDiv");
+    var computedStyle = document.defaultView.getComputedStyle(div, null);
 
-            return false;
-        }
-    };
-
-    var result = document.documentElement.compareDocumentPosition(document.body);
-    console.log(result);
-    console.log(!!(result & 16)); // & 16就是只关注被包含关系
-
-    var client = function () {
-        var engine = {
-            // 呈现引擎
-            ie: 0, // 数值代表引擎的版本号
-            gecko: 0,
-            webkit: 0,
-            khtml: 0,
-            opera: 0,
-
-            // 具体的版本号
-            ver: null // 引擎的完整版本（字符串）
-        };
-
-        var browser = {
-            // 浏览器
-            ie: 0,
-            edge: 0,
-            firefox: 0,
-            safari: 0,
-            konq: 0,
-            opera: 0,
-            chrome: 0,
-
-            // 具体的版本
-            ver: null
-        };
-
-        var system = {
-            win: false,
-            mac: false,
-            x11: false, // 代表Unix
-
-            // 移动设备
-            iphone: false,
-            ipod: false,
-            ipad: false,
-            ios: false,
-            android: false,
-            nokiaN: false,
-            winMobile: false,
-
-            // 游戏系统
-            wii: false,
-            ps: false
-
-            // 在此检测呈现引擎、平台和设备
-        };var ua = navigator.userAgent;
-
-        // 先检测Edge
-        if (/Edge\/(\S+)/.test(ua)) {
-            browser.ver = RegExp["$1"];
-            browser.edge = parseInt(browser.ver);
-            if (/AppleWebKit\/(\S+)/.test(ua)) {
-                engine.ver = RegExp["$1"];
-                engine.webkit = parseFloat(engine.ver);
-            }
-        }
-
-        // 先检测opera，Opera7.6及以上，有window.opera对象，并且opera.version()返回版本字符串
-        else if (window.opera) {
-                engine.ver = browser.ver = window.opera.version();
-                engin.opera = browser.opera = parseFloat(engine.ver);
-            }
-            // 检测Webkit，其中的AppleWebkit这个独一无二的字符串
-            else if (/AppleWebKit\/(\S+)/.test(ua)) {
-                    engine.ver = RegExp["$1"];
-                    engine.webkit = parseFloat(engine.ver);
-
-                    // 确定是Chrome还是Safari
-                    if (/Chrome\/(\S+)/.test(ua)) {
-                        browser.ver = RegExp["$1"];
-                        browser.chrome = parseFloat(browser.ver);
-                    } else if (/Version\/(\S+)/.test(ua)) {
-                        browser.ver = RegExp["$1"];
-                        browser.safari = parseFloat(browser.ver);
-                    } else {
-                        //近似地确定版本号，Safari3之前的版本映射
-                        var safariVersion = 1;
-                        if (engine.webkit < 100) {
-                            safariVersion = 1;
-                        } else if (engine.webkit < 312) {
-                            safariVersion = 1.2;
-                        } else if (engin.webkit < 412) {
-                            safariVersion = 1.3;
-                        } else {
-                            safariVersion = 2;
-                        }
-
-                        browser.safari = browser.ver = safariVersion;
-                    }
-                }
-
-                // KHTML
-                else if (/KHTML\/(\S+)/.test(ua) || /Konqueror\/([^;]+)/.test(ua)) {
-                        engine.ver = browser.ver = RegExp["$1"];
-                        engine.khtml = browser.konq = parseFloat(engine.ver);
-                    }
-
-                    // Gecko，分组匹配，获得版本号，Gecko/8个数字是一种标识
-                    else if (/rv:([^)]+)\) Gecko\/\d{8}/.test(ua)) {
-                            engine.ver = RegExp["$1"];
-                            engine.gecko = parseFloat(engine.ver);
-
-                            // 确定是不是Firefox
-                            if (/Firefox\/(\S+)/.test(ua)) {
-                                browser.ver = RegExp["$1"];
-                                browser.firefox = parseFloat(browser.ver);
-                            }
-                        }
-
-                        // 检查IE，IE11中连MSIE都没了。。。
-                        else if (/MSIE ([^;]+)/.test(ua)) {
-                                engine.ver = browser.ver = RegExp["$1"];
-                                engine.ie = browser.ie = parseFloat(engine.ver);
-                            }
-
-                            // 检查IE11及Edge
-                            else if (/Trident\/7.0.+rv:([^)]+)/.test(ua)) {
-                                    engine.ver = browser.ver = "7.0";
-                                    engine.ie = browser.ie = RegExp["$1"];
-                                }
-
-        // 检测平台
-        var p = navigator.platform;
-        system.win = p.indexOf("Win") == 0;
-        system.mac = p.indexOf("Mac") == 0;
-        system.x11 = p.indexOf("X11") == 0 || p.indexOf("Linux") == 0;
-
-        // 确定windows的版本
-        if (system.win) {
-            if (/Win(?:dows)?([^do]{2})\s?(\d+\.\d+)?/.test(ua)) {
-                if (RegExp["$1"] == "NT") {
-                    switch (RegExp["$2"]) {
-                        case "5.0":
-                            system.win = "2000";
-                            break;
-                        case "5.1":
-                            system.win = "XP";
-                            break;
-                        case "6.0":
-                            system.win = "Vista";
-                            break;
-                        case "6.1":
-                            system.win = "7";
-                            break;
-                        default:
-                            system.win = "NT";
-                            break;
-                    }
-                } else if (RegExp["$1"] == "9x") {
-                    system.win = "ME";
-                } else {
-                    system.win = RegExp["$1"];
-                }
-            }
-        }
-
-        // 移动设备
-        system.iphone = ua.indexOf("iPhone") > -1;
-        system.ipod = ua.indexOf("iPod") > -1;
-        system.ipad = ua.indexOf("iPad") > -1;
-        // nokiaN系统
-        system.nokiaN = ua.indexOf("NokiaN") > -1;
-
-        // winMobile
-        system.winMobile = system.win == "CE";
-        if (system.win == "CE") {
-            system.winMobile = system.win;
-        } else if (system.win == "Ph") {
-            if (/Window Phone OS (\d+.\d+)/.test(ua)) {
-                system.win = "Phone";
-                system.winMobile = parseFloat(RegExp["$1"]);
-            }
-        }
-
-        // 检测iOS的版本号
-        if (system.mac && ua.indexOf("Mobile") > -1) {
-            if (/CPU(?:iPhone)?OS(\d+_\d+)/.test(ua)) {
-                system.ios = parseFloat(RegExp.$1.replace("_", "."));
-            } else {
-                system.ios = 2; // iOS3之前的版本
-            }
-        }
-
-        // 检测Android系统
-        if (/Android (\d+\.\d+)/.test(ua)) {
-            system.android = parseFloat(RegExp.$1);
-        }
-
-        // 游戏系统
-        system.wii = ua.indexOf("Wii") > -1;
-        system.ps = /playstation/i.test(ua);
-
-        return {
-            engine: engine,
-            browser: browser,
-            system: system
-        };
-    }();
-
-    console.log(contains(document.documentElement, document.body));
-}
-// innerText、textContent
-{
-    var getInnerText = function getInnerText(element) {
-        return typeof element.textContent == "string" ? element.textContent : element.innerText;
-    };
-
-    var setInnerText = function setInnerText(element, txt) {
-        if (typeof element.textContent == "string") {
-            element.textContent = txt;
-        } else {
-            element.innerText = txt;
-        }
-    };
-
-    var ul = document.querySelector(".testView");
-    console.log(ul.innerText);
-    ul.innerText = ul.innerText;
-}
-
-{
-    // window.scrollByLines(5) //没有了
-
+    console.log(computedStyle.backgroundColor);
+    console.log(computedStyle.border);
 }
 
 /***/ })
