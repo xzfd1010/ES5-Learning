@@ -75,6 +75,7 @@
     tbody.rows[0].cells[0].appendChild(document.createTextNode("Cell 1,1"))
     tbody.rows[0].insertCell(1)
     tbody.rows[0].cells[1].appendChild(document.createTextNode("Cell 2,1"))
+
     // 创建第二行
     tbody.insertRow(1)
     tbody.rows[1].insertCell(0)

@@ -14,4 +14,7 @@
 // import "./clientTest/chapter2-quirks"
 // import "./clientTest/chapter3-browser"
 // import "./dom/chapter1-nodeType"
-import "./dom/chapter2-operate"
+// import "./dom/chapter2-operate"
+// import "./dom-extend/chapter1-selectorsApi"
+// import "./dom-extend/chapter2-html5"
+import "./dom-extend/chapter3-extension"
