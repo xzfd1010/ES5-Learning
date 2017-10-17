@@ -19,4 +19,6 @@
 // import "./dom-extend/chapter2-html5"
 // import "./dom-extend/chapter3-extension"
 // import "./dom2和dom3/chapter1-domChanges"
-import "./dom2和dom3/chapter2-styleChanges"
+// import "./dom2和dom3/chapter2-styleChanges"
+// import "./dom2和dom3/chapter3-size"
+import "./dom2和dom3/chapter4-iterator"

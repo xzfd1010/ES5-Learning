@@ -10,7 +10,7 @@ gulp.task('server', function (cb) {
     server.start();
 
     // 实现自动刷新，需要监听的路径
-    gulp.watch(['server/public/**/*.js', 'server/views/**/*.ejs'], function (file) {
+    gulp.watch(['server/public/**/*.js', 'server/views/**/*.ejs','server/views/**/*.css'], function (file) {
         server.notify.apply(server, [file]);// 通知服务器进行相应处理
     });
 

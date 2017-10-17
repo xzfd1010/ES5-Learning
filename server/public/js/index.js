@@ -80,45 +80,84 @@ __webpack_require__(2);
 /* 2 */
 /***/ (function(module, exports) {
 
-// 测试浏览器
 {
-    var supportDOM2CSS = document.implementation.hasFeature("CSS", "2.0");
-    var supportDOM2CSS2 = document.implementation.hasFeature("CSS2", "2.0");
+    var supportsTraversals = document.implementation.hasFeature("Traversal", "2.0");
+    var supportsNodeIterator = typeof document.createNodeIterator == "function";
+    var supportsTreeWalker = typeof document.createTreeWalker == "function";
 
-    console.log("supportDOM2CSS", supportDOM2CSS);
-    console.log("supportDOM2CSS2", supportDOM2CSS2);
+    console.log("supportsTraversals", supportsTraversals);
+    console.log("supportsNodeIterator", supportsNodeIterator);
+    console.log("supportsTreeWalker", supportsTreeWalker);
 }
 
-//style
+// NodeIterator
 {
-    var div = document.getElementById("myDiv");
-    div.style.cssText = "width:80px;height:30px;background-color:deepskyblue;border:2px solid #ccc;";
-    console.log(div);
 
-    for (var i = 0, len = div.style.length; i < len; i++) {
-        var prop = div.style[i];
-        var value = div.style.getPropertyValue(prop);
-        console.log(prop + ":" + value);
+    var html = document.documentElement;
+
+    var filter = {
+        acceptNode: function acceptNode(node) {
+            return node.tagName.toLowerCase() == "p" ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+        }
+    };
+
+    var iterator = document.createNodeIterator(html, NodeFilter.SHOW_ELEMENT, filter, false);
+    console.log(iterator);
+
+    // 实例1
+    var div = document.getElementById("div1");
+    var iterator = document.createNodeIterator(div, NodeFilter.SHOW_ELEMENT, null, false);
+    var node = iterator.nextNode();
+    while (node !== null) {
+        console.log(node.tagName);
+        node = iterator.nextNode();
     }
-
-    var declaration = div.style;
-    var rule = declaration.parentRule;
-    console.log(declaration.parentRule);
-
-    // for (var i = 0, len = div.style.length; i < len; i++) {
-    //     var prop = div.style[i]
-    //     var value = div.style.getPropertyCSSValue(prop)
-    //     console.log(prop + ":" + value)
-    // }
+}
+// 实例2
+{
+    var div = document.getElementById("div1");
+    var filter = {
+        acceptNode: function acceptNode(node) {
+            return node.tagName.toLowerCase() == "li" ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+        }
+    };
+    var iterator = document.createNodeIterator(div, NodeFilter.SHOW_ELEMENT, filter, false);
+    var node = iterator.nextNode();
+    while (node !== null) {
+        console.log(node.tagName);
+        node = iterator.nextNode();
+    }
 }
 
-// getComputedStyle(ele,null/:after)
+// TreeWalker
 {
-    var div = document.getElementById("myDiv");
-    var computedStyle = document.defaultView.getComputedStyle(div, null);
+    var div = document.getElementById("div1");
+    var filter = {
+        acceptNode: function acceptNode(node) {
+            return node.tagName.toLowerCase() == "li" ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+        }
+    };
+    var walker = document.createTreeWalker(div, NodeFilter.SHOW_ELEMENT, filter, false);
+    var node = walker.nextNode();
+    while (node !== null) {
+        console.log(node.tagName);
+        node = walker.nextNode();
+    }
+}
 
-    console.log(computedStyle.backgroundColor);
-    console.log(computedStyle.border);
+// 不定义filter的treeWalker
+{
+    var div = document.getElementById("div1");
+    var walker = document.createTreeWalker(div, NodeFilter.SHOW_ELEMENT, null, false);
+    walker.firstChild();
+    walker.nextSibling();
+    var node = walker.firstChild();
+    console.log(node);
+    while (node !== null) {
+        console.log(node.tagName);
+        console.log(walker.currentNode);
+        node = walker.nextNode();
+    }
 }
 
 /***/ })
