@@ -21,4 +21,6 @@
 // import "./dom2和dom3/chapter1-domChanges"
 // import "./dom2和dom3/chapter2-styleChanges"
 // import "./dom2和dom3/chapter3-size"
-import "./dom2和dom3/chapter4-iterator"
+// import "./dom2和dom3/chapter4-iterator"
+// import "./dom2和dom3/chapter5-range"
+import "./events/chapter1-events"

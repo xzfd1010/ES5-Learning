@@ -80,84 +80,91 @@ __webpack_require__(2);
 /* 2 */
 /***/ (function(module, exports) {
 
-{
-    var supportsTraversals = document.implementation.hasFeature("Traversal", "2.0");
-    var supportsNodeIterator = typeof document.createNodeIterator == "function";
-    var supportsTreeWalker = typeof document.createTreeWalker == "function";
-
-    console.log("supportsTraversals", supportsTraversals);
-    console.log("supportsNodeIterator", supportsNodeIterator);
-    console.log("supportsTreeWalker", supportsTreeWalker);
-}
-
-// NodeIterator
-{
-
-    var html = document.documentElement;
-
-    var filter = {
-        acceptNode: function acceptNode(node) {
-            return node.tagName.toLowerCase() == "p" ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+// addHandler 使用DOM0级方法、DOM2级方法或IE来添加事件
+var EventUtil = {
+    addHandler: function addHandler(element, type, handler) {
+        if (element.addEventListener) {
+            element.addEventListener(type, handler, false);
+        } else if (element.attachEvent) {
+            element.attachEvent("on" + type, handler);
+        } else {
+            // 0级事件代替
+            element["on" + type] = handler;
         }
-    };
-
-    var iterator = document.createNodeIterator(html, NodeFilter.SHOW_ELEMENT, filter, false);
-    console.log(iterator);
-
-    // 实例1
-    var div = document.getElementById("div1");
-    var iterator = document.createNodeIterator(div, NodeFilter.SHOW_ELEMENT, null, false);
-    var node = iterator.nextNode();
-    while (node !== null) {
-        console.log(node.tagName);
-        node = iterator.nextNode();
-    }
-}
-// 实例2
-{
-    var div = document.getElementById("div1");
-    var filter = {
-        acceptNode: function acceptNode(node) {
-            return node.tagName.toLowerCase() == "li" ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+    },
+    getEvent: function getEvent(event) {
+        return event ? event : window.event;
+    },
+    getTarget: function getTarget(event) {
+        return event.target || event.srcElement;
+    },
+    preventDefault: function preventDefault(event) {
+        if (event.preventDefault) {
+            event.preventDefault();
+        } else {
+            evnet.returnValue = false;
         }
-    };
-    var iterator = document.createNodeIterator(div, NodeFilter.SHOW_ELEMENT, filter, false);
-    var node = iterator.nextNode();
-    while (node !== null) {
-        console.log(node.tagName);
-        node = iterator.nextNode();
-    }
-}
-
-// TreeWalker
-{
-    var div = document.getElementById("div1");
-    var filter = {
-        acceptNode: function acceptNode(node) {
-            return node.tagName.toLowerCase() == "li" ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+    },
+    removeHandler: function removeHandler(element, type, handler) {
+        if (element.removeEventListener) {
+            element.removeEventListener(type, handler, false);
+        } else if (element.detachEvent) {
+            element.detachEvent("on" + type, handler);
+        } else {
+            element["on" + type] = null;
         }
-    };
-    var walker = document.createTreeWalker(div, NodeFilter.SHOW_ELEMENT, filter, false);
-    var node = walker.nextNode();
-    while (node !== null) {
-        console.log(node.tagName);
-        node = walker.nextNode();
+    },
+    stopPropagation: function stopPropagation(event) {
+        if (event.stopPropagation) {
+            event.stopPropagation();
+        } else {
+            event.cancelBubble = true;
+        }
     }
-}
+};
+var div = document.getElementById("someElement");
+var handler = function handler(e) {
+    // console.log("click")
+    // console.log(e.defaultPrevented)
+    // console.log(e.detail)
+    console.log("currentTarget", e.currentTarget);
+    console.log("target", e.target);
+    console.log("this", this);
+};
+EventUtil.addHandler(div, "click", handler);
 
-// 不定义filter的treeWalker
+var btn = document.getElementById("myBtn");
+// {
+//     var handler = function(event){
+//         switch (event.type){
+//             case "click":
+//                 console.log("clicked")
+//                 break
+//             case "mouseover":
+//                 event.target.style.backgroundColor = "deepskyblue"
+//                 break
+//             case "mouseout":
+//                 console.log(event.type)
+//                 event.target.style.backgroundColor = ""
+//                 break
+//         }
+//     }
+//     btn.onclick = handler
+//     btn.onmouseover = handler
+//     btn.onmouseout = handler
+// }
+
+// eventPhase
 {
-    var div = document.getElementById("div1");
-    var walker = document.createTreeWalker(div, NodeFilter.SHOW_ELEMENT, null, false);
-    walker.firstChild();
-    walker.nextSibling();
-    var node = walker.firstChild();
-    console.log(node);
-    while (node !== null) {
-        console.log(node.tagName);
-        console.log(walker.currentNode);
-        node = walker.nextNode();
-    }
+    btn.onclick = function (event) {
+        console.log("btn.onclick", event.eventPhase); // 2 处于目标阶段
+    };
+    document.body.addEventListener("click", function (event) {
+        console.log("body.listener", event.eventPhase); // 1 表示捕获阶段
+    }, true);
+    document.body.onclick = function (event) {
+        console.log("body.onclick", event.eventPhase);
+    };
 }
 
 /***/ })
