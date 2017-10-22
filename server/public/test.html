@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>Title</title>
+</head>
+<body>
+<div>aaa</div>
+<script>
+    var $ = function(selector, context) {
+        return new $.fn.init(selector, context);
+    };
+
+    $.fn = $.prototype;
+
+    $.fn.init = function(selector, context) {
+        var nodeList = (context || document).querySelectorAll(selector);
+        this.length = nodeList.length;
+        for (var i=0; i<this.length; i+=1) {
+            this[i] = nodeList[i];
+        }
+        console.log(this == $.fn)
+        console.log(this)
+        return this
+    };
+    $.fn.each = function(fn) {
+        var i=0, length = this.length;
+        for (; i<length; i+=1) {
+            fn.call(this[i], i, this[i]);
+        }
+        return this;
+    };
+
+    $.fn.hide = function() {
+        this.each(function() {
+            this.style.display = "none";
+        });
+    };
+
+    $.fn.init.prototype = $.fn;
+
+
+    var a = $("div")[0]
+    console.log(a)
+//
+//    $("button")[0].onclick = function() {
+//        $("img").hide();
+//    };
+</script>
+</body>
+</html>

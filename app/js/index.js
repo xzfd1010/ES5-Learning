@@ -24,4 +24,5 @@
 // import "./dom2和dom3/chapter4-iterator"
 // import "./dom2和dom3/chapter5-range"
 // import "./events/chapter1-events"
-import "./events/chapter2-eventsType"
+// import "./events/chapter2-eventsType"
+import "./events/chapter5-emulate"
