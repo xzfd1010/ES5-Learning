@@ -19,7 +19,7 @@
     </style>
 </head>
 <body>
-<a href="http://www.baidu.com" class="link">百度</a>
+<!--<a href="http://www.baidu.com" class="link">百度</a>
 <button type="button" onclick="window.history.back()">后退</button>
 <button type="button" onclick="window.history.forward()">前进</button>
 <div id="myDiv" style="background:deepskyblue;">
@@ -34,11 +34,11 @@
             
     <li><a href="http://www.yahoo.com">Yahoo!</a></li>
         
-</ul>
+</ul>-->
 
 <!--<p>es5</p>-->
 <!--<p>es5学习</p>-->
-<input type="tel" class="input" placeholder="请输入某些内容" autocomplete="on">
+<!--<input type="tel" class="input" placeholder="请输入某些内容" autocomplete="on">
 <input type="number" class="input" placeholder="请输入某些内容">
 <input type="range" class="input" placeholder="请输入某些内容">
 <input type="email" class="input" placeholder="请输入某些内容">
@@ -46,7 +46,7 @@
     someElement
     <p id="subElement">subElement</p>
 </div>
-<button id="myBtn" type="button">click me</button>
+<button id="myBtn" type="button">click me</button>-->
 <!--<div class="sibling">sibling</div>-->
 <!--&lt;!&ndash;<img src="a.jpg" alt="" name="myImage">&ndash;&gt;-->
 <!--<div id="myDiv" class="bd" title="Body test" lang="en" dir="ltr" data_my="hello!" style="margin-left: 100px;">test</div>-->
@@ -169,6 +169,78 @@
 <!--</ul>-->
 <!--</div>-->
 <!--<div id="div2">div2</div>-->
+
+<!--表单-->
+<!--<form action="" id="form1">-->
+<!--<input type="text" placeholder="username..." autofocus>-->
+<!--<input type="submit" value="提交">-->
+<!--</form>-->
+
+<!--<form method="post" id="myForm">-->
+<!--<ul>-->
+<!--<li><input type="radio" name="color" value="red">Red</li>-->
+<!--<li><input type="radio" name="color" value="green">Green</li>-->
+<!--<li><input type="radio" name="color" value="blue">Blue</li>-->
+<!--</ul>-->
+<!--</form>-->
+
+<!--<form id="textForm" name="textForm">-->
+<!--<input type="text" name="" id="" placeholder="xxx"><br>-->
+<!--<textarea name="" id="" cols="30" rows="10" placeholder="xxx...">hello world</textarea>-->
+<!--</form>-->
+
+<!--<form action="" id="weibo">-->
+<!--<textarea name="" id="textarea" cols="30" rows="10"></textarea><br>-->
+<!--<input type="button" value="插入话题" id="button">-->
+<!--</form>-->
+
+<!--<input type="number" id="num" placeholder="只能输入数字...">-->
+<!--<input type="text" id="textbox" placeholder="请输入...">-->
+
+<!--&lt;!&ndash;切换焦点&ndash;&gt;-->
+<!--<form action="">-->
+<!--<input type="text" name="tel1" id="txtTel1" maxlength="3" required><br>-->
+<!--<input type="text" name="tel2" id="txtTel2" maxlength="4"><br>-->
+<!--<input type="text" name="tel3" id="txtTel3" maxlength="3"><br>-->
+<!--<input type="text" name="cound" pattern="\d+">-->
+<!--<input type="submit" value="提交">-->
+<!--</form>-->
+
+<!--&lt;!&ndash;其他输入元素&ndash;&gt;-->
+<!--<form action="">-->
+<!--<input type="date">-->
+<!--<input type="month">-->
+<!--<input type="week">-->
+<!--<input type="datetime-local">-->
+<!--<input type="time">-->
+<!--</form>-->
+
+<!--select-->
+<select name="" id="mySelect" >
+    <option value="1">option1</option>
+    <option value="2">option2</option>
+    <option value="3">option3</option>
+</select>
+
+<form action="" id="myForm">
+    <fieldset>
+        <label for="red"><input type="checkbox" name="color" id="red" value="red">red</label>
+        <label for="blue"><input type="checkbox" name="color" id="blue" value="blue">blue</label>
+    </fieldset>
+    <fieldset>
+        <select name="number" id="select" multiple>
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+    </fieldset>
+    <button type="submit" id="submit">提交</button>
+</form>
+
+<!--富文本编辑-->
+<iframe src="test.html" frameborder="1" name="richedit" style="width: 100px;height:100px;"></iframe>
+
+<div class="editable" id="richedit" contenteditable="true" style="width: 100px;height:100px;border:1px solid #000;">aaa</div>
 <script src="/js/index.js"></script>
 </body>
 </html>
