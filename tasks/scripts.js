@@ -1,16 +1,16 @@
-var gulp =require( "gulp");
-var gulpif =require( "gulp-if");  // gulp中的if判断
-var concat =require( "gulp-concat");  // gulp中的文件拼接
-var webpack =require( "webpack");  // 打包过程
-var gulpWebpack =require( "webpack-stream");  // webpack stream
-var named =require( "vinyl-named");  // 文件重命名
-var livereload =require( "gulp-livereload");
-var plumber =require( "gulp-plumber");  // 处理文件信息流
-var rename =require( "gulp-rename"); // 重命名
-var uglify =require( "gulp-uglify"); // 压缩js
-var log =require("gulp-util").log; // 输入输出
-var colors = require("gulp-util").colors;
-var args =require( "./util/args");
+var gulp =require( "gulp")
+var gulpif =require( "gulp-if")  // gulp中的if判断
+var concat =require( "gulp-concat")  // gulp中的文件拼接
+var webpack =require( "webpack")  // 打包过程
+var gulpWebpack =require( "webpack-stream")  // webpack stream
+var named =require( "vinyl-named")  // 文件重命名
+var livereload =require( "gulp-livereload")
+var plumber =require( "gulp-plumber")  // 处理文件信息流
+var rename =require( "gulp-rename") // 重命名
+var uglify =require( "gulp-uglify") // 压缩js
+var log =require("gulp-util").log // 输入输出
+var colors = require("gulp-util").colors
+var args =require( "./util/args")
 
 gulp.task("scripts", function(){
     return gulp.src(["app/js/index.js"])
@@ -54,6 +54,6 @@ gulp.task("scripts", function(){
         // 保存
         .pipe(gulp.dest("server/public/js"))
         // args是命令行参数，刷新
-        .pipe(gulpif(args.watch, livereload()));
-});
+        .pipe(gulpif(args.watch, livereload()))
+})
 

@@ -165,44 +165,97 @@ var EventUtil = {
         } else {
             return event.keyCode;
         }
+    },
+    getClipboardText: function getClipboardText(event) {
+        var clipboardData = event.clipboardData || window.clipboardData;
+        return clipboardData.getData("text");
+    },
+    setClipboardText: function setClipboardText(event, value) {
+        if (event.clipboardData) {
+            return event.clipboardData.setData("text/plain", value);
+        } else if (window.clipboardData) {
+            return window.clipboardData.setData("text", value);
+        }
     }
+
+    // 自定义错误
+};{
+    // function CustomError(message) {
+    //
+    //     this.name = "CustomError"
+    //     this.message = message
+    // }
+    //
+    // CustomError.prototype = new Error()
+    //
+    // throw new CustomError("My message")
+}
+
+window.onerror = function (message, url, line) {
+    console.log(message, url, line);
+    return false;
 };
 
+// 抛出错误的时机
 {
-    var getSelectedOptions = function getSelectedOptions(selectbox) {
-        var result = new Array();
-        var option = null;
+    var process = function process(values) {
+        if (!(values instanceof Array)) {
+            throw new Error("process():Argument must be an Array");
+        }
+        values.sort();
 
-        for (var i = 0, len = selectbox.options.length; i < len; i++) {
-            option = selectbox.options[i];
-            if (option.selected) {
-                result.push(option);
+        for (var i = 0, len = values.length; i < len; i++) {
+            if (values[i] > 100) {
+                return values[i];
             }
         }
 
-        return result;
+        return -1;
     };
 
-    var selectbox = document.getElementById("mySelect");
+    // process(1)
 
-    var selectedOptions = getSelectedOptions(selectbox);
-    var message = "";
-
-    for (var i = 0, len = selectedOptions.length; i < len; i++) {
-        message += "Selected index:" + selectedOptions[i].index + "\nSelected text: " + selectedOptions[i].text + "\nSelected value: " + selectedOptions[i].value + "\n\n";
-    }
-
-    console.log(message);
 }
 
-// change事件
+// 图像的error事件
 {
-    var selectbox = document.getElementById("mySelect");
-    var i = 0;
-    EventUtil.addHandler(selectbox, "change", function (event) {
-        i++;
-        console.log("changed " + i + " times");
+    var image = new Image();
+    EventUtil.addHandler(image, "load", function (event) {
+        console.log("Image loaded");
     });
+
+    EventUtil.addHandler(image, "error", function (event) {
+        console.log("Image not loaded");
+    });
+
+    image.src = "smilex.gif";
+}
+
+{
+    var addQueryStringArg = function addQueryStringArg(url, name, value) {
+        if (url.indexOf("?") == -1) {
+            url += "?";
+        } else {
+            url += "&";
+        }
+
+        url += encodeURIComponent(name) + "=" + encodeURIComponent(value);
+
+        return url;
+    };
+}
+
+{
+    var logError = function logError(sev, msg) {
+        var img = new Image();
+        img.src = "log.php?sev=" + encodeURIComponent(sev) + "&msg=" + encodeURIComponent(msg);
+    };
+
+    try {
+        // xxx
+    } catch (error) {
+        logError("nonfatal", "xxx" + error.message);
+    }
 }
 
 /***/ })
